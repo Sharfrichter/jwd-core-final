@@ -5,13 +5,19 @@ import com.epam.jwd.core_final.domain.CrewMember;
 import com.epam.jwd.core_final.domain.Rank;
 import com.epam.jwd.core_final.domain.Role;
 import com.epam.jwd.core_final.factory.impl.CrewMemberFactory;
+import com.epam.jwd.core_final.strategy.impl.CrewFileLoader;
+
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
-        CrewMemberFactory memberFactory = new CrewMemberFactory();
-        CrewMember member = memberFactory.create(Role.COMMANDER, Rank.CAPTAIN, "John Wick");
+        CrewFileLoader loader = new CrewFileLoader();
+        List<CrewMember> crewMembers= (List<CrewMember>) loader.load(Path.of("src/main/resources/input/crew"));
         System.out.println("1");
+
 
 
         //Application.start();
