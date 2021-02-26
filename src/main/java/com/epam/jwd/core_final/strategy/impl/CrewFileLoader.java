@@ -82,8 +82,17 @@ public class CrewFileLoader implements LoadFromFileStrategy {
         Rank rank=null;
         CrewMemberFactory factory = new CrewMemberFactory();
         for(int i=0;i<fields.length;i++){
+            Field field=null;
             try {
-                Field field=CrewMember.class.getDeclaredField(fields[i]);
+                field=CrewMember.class.getDeclaredField(fields[i]);}
+            catch (NoSuchFieldException e){
+                try{
+                    field = CrewMember.class.getSuperclass().getDeclaredField(fields[i]);
+                }catch (NoSuchFieldException ex){
+                    System.out.println(ex.getMessage());
+                }
+
+            }
                 field.setAccessible(true);
                 if(field.getType().equals(Rank.class)){
                     rank = Rank.resolveRankById(Integer.parseInt(values[i]));
@@ -94,9 +103,7 @@ public class CrewFileLoader implements LoadFromFileStrategy {
 
                 }
                     field.setAccessible(false);
-                }catch (NoSuchFieldException e){
-                    e.printStackTrace();
-                }
+
         }
         return factory.create(name,role,rank);
     }

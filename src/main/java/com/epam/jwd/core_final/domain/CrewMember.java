@@ -8,23 +8,16 @@ package com.epam.jwd.core_final.domain;
  * isReadyForNextMissions {@link Boolean} - true by default. Set to false, after first failed mission
  */
 public class CrewMember extends AbstractBaseEntity {
-    private String name;
     private Role role;
     private Rank rank;
     Boolean isReadyForNextMissions;
 
     public CrewMember() {
+        super();
         isReadyForNextMissions=true;
     }
 
-    @Override
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public Role getRole() {
         return role;

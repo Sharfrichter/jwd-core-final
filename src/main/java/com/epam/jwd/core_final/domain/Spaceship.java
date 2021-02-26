@@ -13,6 +13,7 @@ public class Spaceship extends AbstractBaseEntity {
     Boolean isReadyForNextMissions;
 
     public Spaceship() {
+        super();
         isReadyForNextMissions = true;
     }
 

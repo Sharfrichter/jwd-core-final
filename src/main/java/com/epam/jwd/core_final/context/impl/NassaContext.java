@@ -18,6 +18,12 @@ public class NassaContext implements ApplicationContext {
 
     @Override
     public <T extends BaseEntity> Collection<T> retrieveBaseEntityList(Class<T> tClass) {
+        if(tClass.equals(CrewMember.class)){
+            return (Collection<T>) crewMembers;
+        }
+        else if(tClass.equals(Spaceship.class)){
+            return (Collection<T>) spaceships;
+        }
         return null;
     }
 
