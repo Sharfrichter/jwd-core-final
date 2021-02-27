@@ -1,7 +1,9 @@
 package com.epam.jwd.core_final;
 
+import com.epam.jwd.core_final.builder.CrewMemberCriteriaBuilder;
 import com.epam.jwd.core_final.context.Application;
 import com.epam.jwd.core_final.context.impl.NassaContext;
+import com.epam.jwd.core_final.criteria.CrewMemberCriteria;
 import com.epam.jwd.core_final.domain.*;
 import com.epam.jwd.core_final.factory.impl.CrewMemberFactory;
 import com.epam.jwd.core_final.strategy.impl.CrewFileLoader;
@@ -14,12 +16,9 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        CrewFileLoader loader = new CrewFileLoader();
-        SpaceshipFileLoader spaceshipFileLoader = new SpaceshipFileLoader();
-
-        List<Spaceship> ships=spaceshipFileLoader.load(Path.of(ApplicationProperties.inputRootDir+ApplicationProperties.spaceshipsFileName));
-        System.out.println("1");
-        //List<CrewMember> crewMembers=loader.load(Path.of("src/main/resources/input/crew"));
+        CrewMemberCriteriaBuilder builder = new CrewMemberCriteriaBuilder();
+        CrewMemberCriteria criteria=builder.add(Role.COMMANDER).add(Rank.CAPTAIN).add("Alex").add(false).build();
+        System.out.println(1);
 
 
 
