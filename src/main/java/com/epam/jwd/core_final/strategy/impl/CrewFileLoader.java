@@ -13,9 +13,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CrewFileLoader implements LoadFromFileStrategy {
+public class CrewFileLoader implements LoadFromFileStrategy<CrewMember> {
     @Override
-    public List<? extends AbstractBaseEntity> load(Path path) {
+    public List<CrewMember> load(Path path) {
         ArrayList<String[]> fieldsNames=new ArrayList<>();
         ArrayList<String[]> crewValues = new ArrayList<>();
         ArrayList<CrewMember> crew = new ArrayList<>();

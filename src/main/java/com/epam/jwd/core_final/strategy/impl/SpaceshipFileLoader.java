@@ -2,23 +2,27 @@ package com.epam.jwd.core_final.strategy.impl;
 
 import com.epam.jwd.core_final.domain.AbstractBaseEntity;
 import com.epam.jwd.core_final.domain.Role;
+import com.epam.jwd.core_final.domain.Spaceship;
+import com.epam.jwd.core_final.factory.impl.SpaceshipFactory;
 import com.epam.jwd.core_final.strategy.LoadFromFileStrategy;
 
 import java.io.*;
+import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.util.*;
 
-public class SpaceshipFileLoader implements LoadFromFileStrategy {
+public class SpaceshipFileLoader implements LoadFromFileStrategy<Spaceship> {
 
     @Override
-    public List<? extends AbstractBaseEntity> load(Path path) {
+    public List<Spaceship> load(Path path) {
         ArrayList<String[]> patterns = new ArrayList<>();
-        ArrayList<String[]> ships = new ArrayList<>();
+        ArrayList<String[]> values = new ArrayList<>();
+        ArrayList<Spaceship> ships = new ArrayList<>();
 
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path.toFile())));
             ArrayList<String> pattern = new ArrayList<>();
-            ArrayList<String> ship = new ArrayList<>();
+            ArrayList<String> value = new ArrayList<>();
             StringBuilder buffer = new StringBuilder();
             while (reader.ready()){
                 char ch = (char) reader.read();
@@ -52,14 +56,14 @@ public class SpaceshipFileLoader implements LoadFromFileStrategy {
                 }
                 if(ch=='{'||ch=='\n'||ch=='\r');
                 else if(ch==';'||ch==':'||ch==','){
-                    ship.add(buffer.toString());
+                    value.add(buffer.toString());
                     buffer = new StringBuilder();
                 }else if(ch=='}'){
-                    ship.add(buffer.toString());
-                    String[] tmp = new String[ship.size()];
-                    tmp = ship.toArray(tmp);
-                    ship.clear();
-                    ships.add(tmp);
+                    value.add(buffer.toString());
+                    String[] tmp = new String[value.size()];
+                    tmp = value.toArray(tmp);
+                    value.clear();
+                    values.add(tmp);
                     buffer = new StringBuilder();
                 }else {
                     buffer.append(ch);
@@ -72,12 +76,25 @@ public class SpaceshipFileLoader implements LoadFromFileStrategy {
             e.printStackTrace();
         }
 
-
-        for(int i=0;i<ships.size();i++){
-            System.out.println(Arrays.toString(ships.get(i)));
+        for(String[]s:values){
+            ships.add(create(patterns.get(0), s));
         }
-        return null;
+        return ships;
 
+    }
+
+    public Spaceship create(String[] pattern,String[] values){
+        SpaceshipFactory factory = new SpaceshipFactory();
+        String name = values[0];
+        Long distance = Long.parseLong(values[1]);
+        Map<Role, Short> crew = new HashMap<>();
+        for(int i=2;i<values.length;i+=2){
+            Role role=Role.resolveRoleById(Integer.parseInt(values[i]));
+            Short count = Short.parseShort(values[i + 1]);
+            crew.put(role, count);
+
+        }
+        return factory.create(name, distance, crew);
     }
 
 }
