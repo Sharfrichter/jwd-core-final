@@ -10,6 +10,8 @@ package com.epam.jwd.core_final.domain;
  * assignedSpaceShift {@link Spaceship} - not defined by default
  * assignedCrew {@link java.util.List<CrewMember>} - list of missions members based on ship capacity - not defined by default
  * missionResult {@link MissionResult}
+ * from {@link Planet}
+ * to {@link Planet}
  */
 public class FlightMission extends AbstractBaseEntity {
     // todo
