@@ -4,6 +4,7 @@ package com.epam.jwd.core_final;
 import com.epam.jwd.core_final.builder.CriteriaBuilder;
 import com.epam.jwd.core_final.builder.impl.CrewMemberCriteriaBuilder;
 import com.epam.jwd.core_final.builder.impl.FlightMissionCriteriaBuilder;
+import com.epam.jwd.core_final.builder.impl.SpaceShipCriteriaBuilder;
 import com.epam.jwd.core_final.context.Application;
 import com.epam.jwd.core_final.context.impl.NassaContext;
 import com.epam.jwd.core_final.criteria.CrewMemberCriteria;
@@ -23,8 +24,8 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        FlightMissionCriteriaBuilder builder = new FlightMissionCriteriaBuilder();
-        builder.add(true).add(123L).add(new Spaceship()).addEndDate(LocalDate.now());
+        SpaceShipCriteriaBuilder builder = new SpaceShipCriteriaBuilder();
+        builder.add(true).add(123L);
         System.out.println("1");
 
 
