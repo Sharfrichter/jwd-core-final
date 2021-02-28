@@ -4,9 +4,25 @@ import com.epam.jwd.core_final.criteria.Criteria;
 import com.epam.jwd.core_final.domain.AbstractBaseEntity;
 import com.epam.jwd.core_final.domain.BaseEntity;
 
-public interface CriteriaBuilder<T extends Criteria> {
+import java.lang.reflect.Field;
 
-    public CriteriaBuilder add(Object value);
+public abstract class CriteriaBuilder<T extends Criteria> {
 
-    public T build();
+    public CriteriaBuilder add(Object value){
+        Field[] fields=this.getClass().getDeclaredFields();
+        for(Field field:fields){
+            if(field.getType().equals(value.getClass())){
+                try {
+                    field.setAccessible(true);
+                    field.set(this,value);
+                    field.setAccessible(false);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return this;
+    }
+
+    public abstract T build();
 }
