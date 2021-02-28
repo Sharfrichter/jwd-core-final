@@ -7,6 +7,7 @@ import com.epam.jwd.core_final.domain.Planet;
 import com.epam.jwd.core_final.domain.Spaceship;
 import com.epam.jwd.core_final.exception.InvalidStateException;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -25,6 +26,8 @@ public class NassaContext implements ApplicationContext {
         }
         else if(tClass.equals(Spaceship.class)){
             return (Collection<T>) spaceships;
+        }else if(tClass.equals(Planet.class)){
+            return (Collection<T>) planetMap;
         }
         return null;
     }

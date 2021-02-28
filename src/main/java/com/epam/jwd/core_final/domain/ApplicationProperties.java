@@ -15,13 +15,45 @@ package com.epam.jwd.core_final.domain;
  * dateTimeFormat {@link String} - date/time format for {@link java.time.format.DateTimeFormatter} pattern
  */
 public class ApplicationProperties {
-    public static String inputRootDir = "src/main/resources/input/";
-    public static String outputRootDir = "src/main/resources/output/";
-    public static String crewFileName = "crew";
-    public static String missionsFileName = "missions";
-    public static String spaceshipsFileName = "spaceships";
-    public static String planetsFileName = "spacemap";
-    public static Integer fileRefreshRate = 1;
-    public static String dateTimeFormat = "dd-MM-yyyy";
+    private static String inputRootDir;
+    private static String outputRootDir;
+    private static String crewFileName;
+    private static String missionsFileName;
+    private static String spaceshipsFileName;
+    private static String planetsFileName;
+    private static Integer fileRefreshRate;
+    private static String dateTimeFormat;
     //todo
+
+    public static String getInputRootDir() {
+        return inputRootDir;
+    }
+
+    public static String getOutputRootDir() {
+        return outputRootDir;
+    }
+
+    public static String getCrewFileName() {
+        return crewFileName;
+    }
+
+    public static String getMissionsFileName() {
+        return missionsFileName;
+    }
+
+    public static String getSpaceshipsFileName() {
+        return spaceshipsFileName;
+    }
+
+    public static String getPlanetsFileName() {
+        return planetsFileName;
+    }
+
+    public static Integer getFileRefreshRate() {
+        return fileRefreshRate;
+    }
+
+    public static String getDateTimeFormat() {
+        return dateTimeFormat;
+    }
 }

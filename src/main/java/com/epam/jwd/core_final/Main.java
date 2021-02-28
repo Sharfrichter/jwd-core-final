@@ -16,6 +16,7 @@ import com.epam.jwd.core_final.factory.impl.PlanetFactory;
 import com.epam.jwd.core_final.strategy.impl.CrewFileLoader;
 import com.epam.jwd.core_final.strategy.impl.PlanetFileLoader;
 import com.epam.jwd.core_final.strategy.impl.SpaceshipFileLoader;
+import com.epam.jwd.core_final.util.PropertyReaderUtil;
 
 import java.nio.file.Path;
 import java.time.LocalDate;
@@ -25,11 +26,11 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        SpaceShipCriteriaBuilder builder = new SpaceShipCriteriaBuilder();
-        builder.add(true).add(123L);
-        FlightMissionFactory flightMissionFactory = new FlightMissionFactory();
-        FlightMission f=flightMissionFactory.create(new Planet(1L,1L),new Spaceship(),new Planet(2L,3L));
-        System.out.println("1");
+        NassaContext context = new NassaContext();
+        ApplicationProperties applicationProperties = new ApplicationProperties();
+        PropertyReaderUtil.loadProperties();
+        System.out.println(ApplicationProperties.getFileRefreshRate());
+
 
 
 
