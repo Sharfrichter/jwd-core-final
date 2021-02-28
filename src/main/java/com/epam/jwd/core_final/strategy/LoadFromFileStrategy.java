@@ -7,5 +7,5 @@ import java.nio.file.Path;
 import java.util.List;
 
 public interface LoadFromFileStrategy<T extends BaseEntity> {
-    List<? extends AbstractBaseEntity> load(Path path);
+    List<T> load(Path path);
 }

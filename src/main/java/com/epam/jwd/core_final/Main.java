@@ -6,6 +6,7 @@ import com.epam.jwd.core_final.context.impl.NassaContext;
 import com.epam.jwd.core_final.criteria.CrewMemberCriteria;
 import com.epam.jwd.core_final.domain.*;
 import com.epam.jwd.core_final.factory.impl.CrewMemberFactory;
+import com.epam.jwd.core_final.factory.impl.PlanetFactory;
 import com.epam.jwd.core_final.strategy.impl.CrewFileLoader;
 import com.epam.jwd.core_final.strategy.impl.SpaceshipFileLoader;
 
@@ -16,8 +17,8 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        CrewMemberCriteriaBuilder builder = new CrewMemberCriteriaBuilder();
-        CrewMemberCriteria criteria=builder.add(Role.COMMANDER).add(Rank.CAPTAIN).add("Alex").add(false).build();
+        PlanetFactory factory = new PlanetFactory();
+        Planet p=factory.create("Mars",1L,2L);
         System.out.println(1);
 
 
