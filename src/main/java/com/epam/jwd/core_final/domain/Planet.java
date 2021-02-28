@@ -9,6 +9,15 @@ public class Planet extends AbstractBaseEntity{
     private Long x;
     private Long y;
 
+    public Planet() {
+
+    }
+
+    public Planet(Long x, Long y) {
+        this.x = x;
+        this.y = y;
+    }
+
     public Long getX() {
         return x;
     }

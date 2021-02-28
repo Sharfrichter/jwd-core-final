@@ -11,6 +11,7 @@ import com.epam.jwd.core_final.criteria.CrewMemberCriteria;
 import com.epam.jwd.core_final.criteria.FlightMissionCriteria;
 import com.epam.jwd.core_final.domain.*;
 import com.epam.jwd.core_final.factory.impl.CrewMemberFactory;
+import com.epam.jwd.core_final.factory.impl.FlightMissionFactory;
 import com.epam.jwd.core_final.factory.impl.PlanetFactory;
 import com.epam.jwd.core_final.strategy.impl.CrewFileLoader;
 import com.epam.jwd.core_final.strategy.impl.PlanetFileLoader;
@@ -26,6 +27,8 @@ public class Main {
     public static void main(String[] args) {
         SpaceShipCriteriaBuilder builder = new SpaceShipCriteriaBuilder();
         builder.add(true).add(123L);
+        FlightMissionFactory flightMissionFactory = new FlightMissionFactory();
+        FlightMission f=flightMissionFactory.create(new Planet(1L,1L),new Spaceship(),new Planet(2L,3L));
         System.out.println("1");
 
 
