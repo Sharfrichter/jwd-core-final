@@ -20,6 +20,7 @@ public class ApplicationProperties {
     public static String crewFileName = "crew";
     public static String missionsFileName = "missions";
     public static String spaceshipsFileName = "spaceships";
+    public static String planetsFileName = "spacemap";
     public static Integer fileRefreshRate = 1;
     public static String dateTimeFormat = "dd-MM-yyyy";
     //todo

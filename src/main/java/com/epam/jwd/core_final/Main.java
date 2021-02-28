@@ -8,6 +8,7 @@ import com.epam.jwd.core_final.domain.*;
 import com.epam.jwd.core_final.factory.impl.CrewMemberFactory;
 import com.epam.jwd.core_final.factory.impl.PlanetFactory;
 import com.epam.jwd.core_final.strategy.impl.CrewFileLoader;
+import com.epam.jwd.core_final.strategy.impl.PlanetFileLoader;
 import com.epam.jwd.core_final.strategy.impl.SpaceshipFileLoader;
 
 import java.nio.file.Path;
@@ -17,9 +18,9 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        PlanetFactory factory = new PlanetFactory();
-        Planet p=factory.create("Mars",1L,2L);
-        System.out.println(1);
+        PlanetFileLoader loader = new PlanetFileLoader();
+        List<Planet> p=loader.load(Path.of(ApplicationProperties.inputRootDir+ApplicationProperties.planetsFileName));
+        System.out.println("1");
 
 
 
