@@ -40,6 +40,10 @@ public class Main {
         CrewMemberCriteriaBuilder builder = new CrewMemberCriteriaBuilder();
         CrewMemberCriteria criteria=builder.add(Role.FLIGHT_ENGINEER).build();
         List<CrewMember> crew=crewService.findAllCrewMembersByCriteria(criteria);
+        CrewMemberFactory factory = new CrewMemberFactory();
+
+
+        crewService.createCrewMember(factory.create("Davey Btley"));
         System.out.println("1");
 
 

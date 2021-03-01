@@ -40,17 +40,34 @@ public class CrewServiceImpl implements CrewService {
 
     @Override
     public CrewMember updateCrewMemberDetails(CrewMember crewMember) {
-        return null;
+        return crewMember;
     }
 
     @Override
     public void assignCrewMemberOnMission(CrewMember crewMember) throws RuntimeException {
+        if(!crewMember.getReadyForNextMissions()){
+            throw new RuntimeException("This crew member is not available");
+        }else {
+            crewMember.setReadyForNextMissions(false);
+        }
 
     }
 
     @Override
-    public CrewMember createCrewMember(CrewMember spaceship) throws RuntimeException {
-        return null;
+    public CrewMember createCrewMember(CrewMember crewMember) throws RuntimeException {
+        List<CrewMember> members = findAllCrewMembers();
+        boolean exists=members.stream().anyMatch(member ->{
+           if(member.getName().equals(crewMember.getName())){
+               return true;
+           }
+           return false;
+        });
+        if(exists){
+            throw new RuntimeException("this member is already exists");
+        }else {
+            applicationContext.retrieveBaseEntityList(CrewMember.class).add(crewMember);
+            return crewMember;
+        }
     }
 
     public void setApplicationContext(ApplicationContext applicationContext) {
