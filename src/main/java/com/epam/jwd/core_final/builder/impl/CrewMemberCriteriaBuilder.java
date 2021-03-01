@@ -12,6 +12,11 @@ public class CrewMemberCriteriaBuilder extends CriteriaBuilder<CrewMemberCriteri
     private Rank rank;
     private Boolean isReadyForNextMissions;
 
+    @Override
+    public CrewMemberCriteriaBuilder add(Object value) {
+        super.add(value);
+        return this;
+    }
 
 
     @Override
