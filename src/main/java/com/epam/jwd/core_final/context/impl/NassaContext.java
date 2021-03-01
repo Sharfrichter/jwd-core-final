@@ -19,6 +19,7 @@ public class NassaContext implements ApplicationContext {
     private Collection<CrewMember> crewMembers = new ArrayList<>();
     private Collection<Spaceship> spaceships = new ArrayList<>();
     private Collection<Planet> planetMap = new ArrayList<>();
+    private Collection<FlightMission> missions = new ArrayList<>();
     private LoadFromFileStrategy strategy;
 
     @Override
@@ -30,6 +31,8 @@ public class NassaContext implements ApplicationContext {
             return (Collection<T>) spaceships;
         }else if(tClass.equals(Planet.class)){
             return (Collection<T>) planetMap;
+        }else if(tClass.equals(FlightMission.class)){
+            return (Collection<T>) missions;
         }
         return null;
     }
