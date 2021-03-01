@@ -6,7 +6,7 @@ import com.epam.jwd.core_final.domain.Role;
 
 import java.util.Map;
 
-public class SpaceShipCriteriaBuilder extends CriteriaBuilder<SpaceshipCriteria> {
+public class SpaceshipCriteriaBuilder extends CriteriaBuilder<SpaceshipCriteria> {
     private Map<Role,Short> crew;
     private Long flightDistance;
     private Boolean isReadyForNextMissions;
