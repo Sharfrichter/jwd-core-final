@@ -6,6 +6,7 @@ import com.epam.jwd.core_final.exception.InvalidStateException;
 import com.epam.jwd.core_final.strategy.LoadFromFileStrategy;
 import com.epam.jwd.core_final.strategy.impl.CrewFileLoader;
 import com.epam.jwd.core_final.strategy.impl.PlanetFileLoader;
+import com.epam.jwd.core_final.strategy.impl.SpaceshipFileLoader;
 import com.epam.jwd.core_final.util.PropertyReaderUtil;
 
 import java.io.IOException;
@@ -58,6 +59,12 @@ public class NassaContext implements ApplicationContext {
             planetMap = strategy.load(Path.of("src/main/resources/" + ApplicationProperties.getInputRootDir() + "/" + ApplicationProperties.getPlanetsFileName()));
         } catch (IOException e) {
             throw new InvalidStateException("Problem with planet file location property");
+        }
+        strategy = new SpaceshipFileLoader();
+        try {
+            spaceships = strategy.load(Path.of("src/main/resources/" + ApplicationProperties.getInputRootDir() + "/" + ApplicationProperties.getSpaceshipsFileName()));
+        } catch (IOException e) {
+            throw new InvalidStateException("Problem with spaceships file location property");
         }
     }
 }
