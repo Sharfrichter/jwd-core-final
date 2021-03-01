@@ -5,8 +5,10 @@ import com.epam.jwd.core_final.domain.*;
 import com.epam.jwd.core_final.exception.InvalidStateException;
 import com.epam.jwd.core_final.strategy.LoadFromFileStrategy;
 import com.epam.jwd.core_final.strategy.impl.CrewFileLoader;
+import com.epam.jwd.core_final.strategy.impl.PlanetFileLoader;
 import com.epam.jwd.core_final.util.PropertyReaderUtil;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -45,6 +47,17 @@ public class NassaContext implements ApplicationContext {
     public void init() throws InvalidStateException {
         PropertyReaderUtil.loadProperties();
         strategy = new CrewFileLoader();
-        crewMembers=strategy.load(Path.of("src/main/resources/"+ ApplicationProperties.getInputRootDir()+"/"+ApplicationProperties.getCrewFileName()));
+        try {
+            crewMembers=strategy.load(Path.of("src/main/resources/"+ ApplicationProperties.getInputRootDir()+"/"+ApplicationProperties.getCrewFileName()));
+        }catch (IOException e){
+            throw new InvalidStateException("problem with crew file location property");
+        }
+
+        strategy = new PlanetFileLoader();
+        try {
+            planetMap = strategy.load(Path.of("src/main/resources/" + ApplicationProperties.getInputRootDir() + "/" + ApplicationProperties.getPlanetsFileName()));
+        } catch (IOException e) {
+            throw new InvalidStateException("Problem with planet file location property");
+        }
     }
 }

@@ -13,11 +13,11 @@ import java.util.List;
 public class PlanetFileLoader implements LoadFromFileStrategy<Planet> {
 
     @Override
-    public List<Planet> load(Path path) {
+    public List<Planet> load(Path path) throws IOException {
 
         ArrayList<String> planetsNames = new ArrayList<>();
         ArrayList<Planet> planetsList = new ArrayList<>();
-        try {
+        {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path.toFile())));
             StringBuilder builder = new StringBuilder();
             Integer x=0;
@@ -47,10 +47,6 @@ public class PlanetFileLoader implements LoadFromFileStrategy<Planet> {
                     x++;
                 }
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         PlanetFactory factory = new PlanetFactory();
         for(int i=0;i<planetsNames.size();i+=3){

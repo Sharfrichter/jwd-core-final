@@ -15,7 +15,9 @@ import com.epam.jwd.core_final.exception.InvalidStateException;
 import com.epam.jwd.core_final.factory.impl.CrewMemberFactory;
 import com.epam.jwd.core_final.factory.impl.FlightMissionFactory;
 import com.epam.jwd.core_final.factory.impl.PlanetFactory;
+import com.epam.jwd.core_final.service.SpacemapService;
 import com.epam.jwd.core_final.service.impl.CrewServiceImpl;
+import com.epam.jwd.core_final.service.impl.SpacemapServiceImpl;
 import com.epam.jwd.core_final.strategy.impl.CrewFileLoader;
 import com.epam.jwd.core_final.strategy.impl.PlanetFileLoader;
 import com.epam.jwd.core_final.strategy.impl.SpaceshipFileLoader;
@@ -36,6 +38,9 @@ public class Main {
         } catch (InvalidStateException e) {
             e.printStackTrace();
         }
+        SpacemapService spacemapService = new SpacemapServiceImpl(context);
+        Planet planet=spacemapService.getRandomPlanet();
+
         CrewServiceImpl crewService = new CrewServiceImpl(context);
         CrewMemberCriteriaBuilder builder = new CrewMemberCriteriaBuilder();
         CrewMemberCriteria criteria=builder.add(Role.FLIGHT_ENGINEER).build();

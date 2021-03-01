@@ -14,12 +14,12 @@ import java.util.*;
 public class SpaceshipFileLoader implements LoadFromFileStrategy<Spaceship> {
 
     @Override
-    public List<Spaceship> load(Path path) {
+    public List<Spaceship> load(Path path) throws IOException {
         ArrayList<String[]> patterns = new ArrayList<>();
         ArrayList<String[]> values = new ArrayList<>();
         ArrayList<Spaceship> ships = new ArrayList<>();
 
-        try {
+
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path.toFile())));
             ArrayList<String> pattern = new ArrayList<>();
             ArrayList<String> value = new ArrayList<>();
@@ -70,13 +70,7 @@ public class SpaceshipFileLoader implements LoadFromFileStrategy<Spaceship> {
                 }
 
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        for(String[]s:values){
+            for(String[]s:values){
             ships.add(create(patterns.get(0), s));
         }
         return ships;

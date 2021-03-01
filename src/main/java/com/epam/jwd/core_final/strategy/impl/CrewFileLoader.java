@@ -15,11 +15,11 @@ import java.util.List;
 
 public class CrewFileLoader implements LoadFromFileStrategy<CrewMember> {
     @Override
-    public List<CrewMember> load(Path path) {
+    public List<CrewMember> load(Path path) throws IOException {
         ArrayList<String[]> fieldsNames=new ArrayList<>();
         ArrayList<String[]> crewValues = new ArrayList<>();
         ArrayList<CrewMember> crew = new ArrayList<>();
-        try {
+
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path.toFile())));
 
             ArrayList<String> pattern=new ArrayList<>();
@@ -62,9 +62,7 @@ public class CrewFileLoader implements LoadFromFileStrategy<CrewMember> {
 
 
             }
-        }catch (IOException e){
-            e.printStackTrace();
-        }
+
         for(int i=0;i<crewValues.size();i++){
             if(i>=fieldsNames.size()){
                 crew.add(create(fieldsNames.get(fieldsNames.size() - 1), crewValues.get(i)));
