@@ -2,8 +2,19 @@ package com.epam.jwd.core_final.context;
 
 // todo replace Object with your own types
 
+import com.epam.jwd.core_final.builder.impl.CrewMemberCriteriaBuilder;
 import com.epam.jwd.core_final.command.Command;
+import com.epam.jwd.core_final.criteria.CrewMemberCriteria;
+import com.epam.jwd.core_final.domain.*;
+import com.epam.jwd.core_final.factory.EntityFactory;
+import com.epam.jwd.core_final.factory.impl.CrewMemberFactory;
+import com.epam.jwd.core_final.factory.impl.FlightMissionFactory;
+import com.epam.jwd.core_final.factory.impl.PlanetFactory;
+import com.epam.jwd.core_final.factory.impl.SpaceshipFactory;
+import com.epam.jwd.core_final.service.CrewService;
+import com.epam.jwd.core_final.service.impl.CrewServiceImpl;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -18,7 +29,7 @@ public interface ApplicationMenu {
         if(depth==0){
             return "1-Crew\n2-Spaceships\n3-Planets\n4-Missions\n";
         }if(depth==1){
-            return "1-Update\n2-Create\n3-Get\n4-Get with criteria";
+            return "1-Create\n2-Get\n3-Get with criteria\n4-Delete";
         }
         return null;
     }
@@ -30,9 +41,53 @@ public interface ApplicationMenu {
     default void run(){
         Scanner scanner = new Scanner(System.in);
         int value=1000;
+        int option=0;
         while (value!=0){
             System.out.println(printAvailableOptions(0));
             value = scanner.nextInt();
+            System.out.println(printAvailableOptions(1));
+            option = scanner.nextInt();
+            switch (value) {
+                case 1:
+                    if(option==1){
+                        CrewMemberFactory factory = new CrewMemberFactory();
+                        List<Object> values = new ArrayList<>();
+                        System.out.println("Name");
+                        values.add(scanner.next());
+                        System.out.println("Role");
+                        values.add(Role.resolveRoleById(scanner.nextInt()));
+                        System.out.println("Rank");
+                        values.add(Rank.resolveRankById(scanner.nextInt()));
+                        CrewMember member = factory.create(values);
+                        CrewServiceImpl.getInstance(getApplicationContext()).createCrewMember(member);
+                    }else if(option==2){
+                        CrewServiceImpl.getInstance(getApplicationContext()).findAllCrewMembers().forEach(System.out::println);
+                    }else if(option==3){
+                        CrewMemberCriteriaBuilder builder = new CrewMemberCriteriaBuilder();
+                        int val=0;
+                        System.out.println("Role");
+                        val = scanner.nextInt();
+                        if(val>0){
+                            builder.add(Role.resolveRoleById(val));
+                        }
+                        System.out.println("Rank");
+                        val=scanner.nextInt();
+                        if(val>0){
+                            builder.add(Rank.resolveRankById(val));
+                        }
+                        System.out.println("Ready for next");
+                        String ready = scanner.next();
+                        if (ready.contains("true")){
+                            builder.add(true);
+                        }else if(ready.contains("false")){
+                            builder.add(false);
+                        }
+                        CrewMemberCriteria criteria = builder.build();
+                        CrewServiceImpl.getInstance(getApplicationContext()).findAllCrewMembersByCriteria(criteria).forEach(System.out::println);
+
+                    }
+
+            }
         }
     }
 }

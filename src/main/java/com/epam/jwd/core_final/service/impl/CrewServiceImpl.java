@@ -15,8 +15,18 @@ import java.util.stream.Collectors;
 
 public class CrewServiceImpl implements CrewService {
     private ApplicationContext applicationContext;
+    private static CrewServiceImpl instance;
 
-    public CrewServiceImpl(ApplicationContext applicationContext) {
+    public static CrewServiceImpl getInstance(ApplicationContext context) {
+        if(instance==null){
+            instance = new CrewServiceImpl(context);
+        }else {
+            instance.applicationContext = context;
+        }
+        return instance;
+    }
+
+    private CrewServiceImpl(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 

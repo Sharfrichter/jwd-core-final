@@ -11,7 +11,7 @@ public class CrewUpdateCommand implements Command{
 
     public CrewUpdateCommand(CrewMember member, ApplicationContext context) {
         this.context=context;
-        service = new CrewServiceImpl(context);
+        service = CrewServiceImpl.getInstance(context);
         this.member = member;
     }
 

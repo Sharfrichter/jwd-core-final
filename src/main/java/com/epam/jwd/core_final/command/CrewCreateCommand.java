@@ -15,7 +15,7 @@ public class CrewCreateCommand implements Command{
         CrewMemberFactory factory = new CrewMemberFactory();
         this.member = factory.create(args);
         this.context = context;
-        this.service = new CrewServiceImpl(context);
+        this.service = CrewServiceImpl.getInstance(context);
     }
 
     @Override

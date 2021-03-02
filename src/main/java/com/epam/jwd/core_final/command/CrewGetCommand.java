@@ -15,7 +15,7 @@ public class CrewGetCommand implements Command{
     }
 
     public CrewGetCommand(ApplicationContext context) {
-        service = new CrewServiceImpl(context);
+        service = CrewServiceImpl.getInstance(context);
     }
 
     @Override

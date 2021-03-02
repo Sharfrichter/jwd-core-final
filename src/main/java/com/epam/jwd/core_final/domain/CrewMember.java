@@ -42,5 +42,12 @@ public class CrewMember extends AbstractBaseEntity {
     public void setReadyForNextMissions(Boolean readyForNextMissions) {
         isReadyForNextMissions = readyForNextMissions;
     }
-    // todo
+
+    @Override
+    public String toString() {
+        return getName()+
+                " " + role +
+                " " + rank +
+                " isReadyForNextMissions=" + isReadyForNextMissions;
+    }
 }

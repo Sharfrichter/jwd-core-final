@@ -18,19 +18,15 @@ import com.epam.jwd.core_final.service.impl.CrewServiceImpl;
 import com.epam.jwd.core_final.service.impl.SpacemapServiceImpl;
 
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Stream;
 
 public class Main {
 
     public static void main(String[] args) throws InvalidStateException {
         System.out.println("start");
-        ApplicationMenu menu=Application.start();
-
-        CrewMemberCriteriaBuilder criteriaBuilder = new CrewMemberCriteriaBuilder();
-        Command command = new CrewGetCommand(menu.getApplicationContext(),criteriaBuilder.add(Role.FLIGHT_ENGINEER).build());
-        List<CrewMember> members = (List<CrewMember>) menu.handleUserInput(command);
-
-        menu.run();
+       ApplicationMenu menu=Application.start();
+       menu.run();
 
         System.out.println("end");
 
