@@ -4,6 +4,8 @@ package com.epam.jwd.core_final.context;
 
 import com.epam.jwd.core_final.builder.impl.CrewMemberCriteriaBuilder;
 import com.epam.jwd.core_final.command.Command;
+import com.epam.jwd.core_final.command.CrewCreateCommand;
+import com.epam.jwd.core_final.command.CrewGetCommand;
 import com.epam.jwd.core_final.criteria.CrewMemberCriteria;
 import com.epam.jwd.core_final.domain.*;
 import com.epam.jwd.core_final.factory.EntityFactory;
@@ -50,7 +52,6 @@ public interface ApplicationMenu {
             switch (value) {
                 case 1:
                     if(option==1){
-                        CrewMemberFactory factory = new CrewMemberFactory();
                         List<Object> values = new ArrayList<>();
                         System.out.println("Name");
                         values.add(scanner.next());
@@ -58,10 +59,12 @@ public interface ApplicationMenu {
                         values.add(Role.resolveRoleById(scanner.nextInt()));
                         System.out.println("Rank");
                         values.add(Rank.resolveRankById(scanner.nextInt()));
-                        CrewMember member = factory.create(values);
-                        CrewServiceImpl.getInstance(getApplicationContext()).createCrewMember(member);
+                        CrewCreateCommand command = new CrewCreateCommand(getApplicationContext(), values);
+                        handleUserInput(command);
                     }else if(option==2){
-                        CrewServiceImpl.getInstance(getApplicationContext()).findAllCrewMembers().forEach(System.out::println);
+                        CrewGetCommand command = new CrewGetCommand(getApplicationContext());
+                        List<CrewMember> members= (List<CrewMember>) handleUserInput(command);
+                        members.forEach(System.out::println);
                     }else if(option==3){
                         CrewMemberCriteriaBuilder builder = new CrewMemberCriteriaBuilder();
                         int val=0;
@@ -83,7 +86,9 @@ public interface ApplicationMenu {
                             builder.add(false);
                         }
                         CrewMemberCriteria criteria = builder.build();
-                        CrewServiceImpl.getInstance(getApplicationContext()).findAllCrewMembersByCriteria(criteria).forEach(System.out::println);
+                        CrewGetCommand command = new CrewGetCommand(getApplicationContext(), criteria);
+                        List<CrewMember> members = (List<CrewMember>) command.execute();
+                        members.forEach(System.out::println);
 
                     }
 

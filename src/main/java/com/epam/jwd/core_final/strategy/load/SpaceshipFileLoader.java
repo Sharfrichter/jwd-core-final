@@ -1,13 +1,11 @@
-package com.epam.jwd.core_final.strategy.impl;
+package com.epam.jwd.core_final.strategy.load;
 
-import com.epam.jwd.core_final.domain.AbstractBaseEntity;
 import com.epam.jwd.core_final.domain.Role;
 import com.epam.jwd.core_final.domain.Spaceship;
 import com.epam.jwd.core_final.factory.impl.SpaceshipFactory;
 import com.epam.jwd.core_final.strategy.LoadFromFileStrategy;
 
 import java.io.*;
-import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.util.*;
 

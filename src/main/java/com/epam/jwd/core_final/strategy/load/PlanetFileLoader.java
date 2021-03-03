@@ -1,6 +1,5 @@
-package com.epam.jwd.core_final.strategy.impl;
+package com.epam.jwd.core_final.strategy.load;
 
-import com.epam.jwd.core_final.domain.AbstractBaseEntity;
 import com.epam.jwd.core_final.domain.Planet;
 import com.epam.jwd.core_final.factory.impl.PlanetFactory;
 import com.epam.jwd.core_final.strategy.LoadFromFileStrategy;

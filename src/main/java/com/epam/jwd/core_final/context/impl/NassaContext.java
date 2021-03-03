@@ -4,13 +4,12 @@ import com.epam.jwd.core_final.context.ApplicationContext;
 import com.epam.jwd.core_final.domain.*;
 import com.epam.jwd.core_final.exception.InvalidStateException;
 import com.epam.jwd.core_final.strategy.LoadFromFileStrategy;
-import com.epam.jwd.core_final.strategy.impl.CrewFileLoader;
-import com.epam.jwd.core_final.strategy.impl.PlanetFileLoader;
-import com.epam.jwd.core_final.strategy.impl.SpaceshipFileLoader;
+import com.epam.jwd.core_final.strategy.load.CrewFileLoader;
+import com.epam.jwd.core_final.strategy.load.PlanetFileLoader;
+import com.epam.jwd.core_final.strategy.load.SpaceshipFileLoader;
 import com.epam.jwd.core_final.util.PropertyReaderUtil;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
