@@ -2,10 +2,15 @@ package com.epam.jwd.core_final.service.impl;
 
 import com.epam.jwd.core_final.context.ApplicationContext;
 import com.epam.jwd.core_final.criteria.Criteria;
+import com.epam.jwd.core_final.domain.ApplicationProperties;
 import com.epam.jwd.core_final.domain.CrewMember;
 import com.epam.jwd.core_final.service.CrewService;
+import com.epam.jwd.core_final.strategy.load.CrewFileLoader;
+import com.epam.jwd.core_final.strategy.save.CrewFileSaver;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +37,14 @@ public class CrewServiceImpl implements CrewService {
 
     @Override
     public List<CrewMember> findAllCrewMembers() {
-        return (List<CrewMember>) applicationContext.retrieveBaseEntityList(CrewMember.class);
+        CrewFileLoader loader = new CrewFileLoader();
+        List<CrewMember> members = null;
+        try {
+            members=loader.load(Path.of("src/main/resources/"+ ApplicationProperties.getInputRootDir()+"/"+ApplicationProperties.getCrewFileName()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return members;
     }
 
     @Override
@@ -82,7 +94,11 @@ public class CrewServiceImpl implements CrewService {
         }
     }
 
-    public void setApplicationContext(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
+    public void deleteCrewMember(CrewMember crewMember) throws IOException {
+        crewMember.setValid(false);
+        CrewFileSaver saver = new CrewFileSaver();
+        List<CrewMember> members = findAllCrewMembers();
+        members.removeIf(member -> member.getName().equals(crewMember.getName()));
+        saver.save(Path.of("src/main/resources/"+ ApplicationProperties.getInputRootDir()+"/"+ApplicationProperties.getCrewFileName()),members);
     }
 }

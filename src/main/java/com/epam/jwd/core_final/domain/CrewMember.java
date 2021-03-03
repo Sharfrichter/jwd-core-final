@@ -10,13 +10,15 @@ import java.util.Objects;
  * isReadyForNextMissions {@link Boolean} - true by default. Set to false, after first failed mission
  */
 public class CrewMember extends AbstractBaseEntity {
+    private boolean isValid;
     private Role role;
     private Rank rank;
-    Boolean isReadyForNextMissions;
+    private Boolean isReadyForNextMissions;
 
     public CrewMember() {
         super();
         isReadyForNextMissions=true;
+        isValid=true;
     }
 
 
@@ -66,5 +68,13 @@ public class CrewMember extends AbstractBaseEntity {
     @Override
     public int hashCode() {
         return Objects.hash(role, rank, isReadyForNextMissions);
+    }
+
+    public boolean isValid() {
+        return isValid;
+    }
+
+    public void setValid(boolean valid) {
+        isValid = valid;
     }
 }

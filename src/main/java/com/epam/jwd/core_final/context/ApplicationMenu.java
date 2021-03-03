@@ -4,19 +4,13 @@ package com.epam.jwd.core_final.context;
 
 import com.epam.jwd.core_final.builder.impl.CrewMemberCriteriaBuilder;
 import com.epam.jwd.core_final.command.Command;
-import com.epam.jwd.core_final.command.CrewCreateCommand;
-import com.epam.jwd.core_final.command.CrewGetCommand;
+import com.epam.jwd.core_final.command.impl.CrewCreateCommand;
+import com.epam.jwd.core_final.command.impl.CrewDeleteCommand;
+import com.epam.jwd.core_final.command.impl.CrewGetCommand;
 import com.epam.jwd.core_final.criteria.CrewMemberCriteria;
 import com.epam.jwd.core_final.domain.*;
-import com.epam.jwd.core_final.factory.EntityFactory;
-import com.epam.jwd.core_final.factory.impl.CrewMemberFactory;
-import com.epam.jwd.core_final.factory.impl.FlightMissionFactory;
-import com.epam.jwd.core_final.factory.impl.PlanetFactory;
-import com.epam.jwd.core_final.factory.impl.SpaceshipFactory;
-import com.epam.jwd.core_final.service.CrewService;
-import com.epam.jwd.core_final.service.impl.CrewServiceImpl;
+import com.epam.jwd.core_final.strategy.load.CrewFileLoader;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -89,6 +83,30 @@ public interface ApplicationMenu {
                         CrewGetCommand command = new CrewGetCommand(getApplicationContext(), criteria);
                         List<CrewMember> members = (List<CrewMember>) command.execute();
                         members.forEach(System.out::println);
+
+                    }else if(option==4){
+                        CrewFileLoader loader = new CrewFileLoader();
+                        List<CrewMember> members=null;
+                        Command command = new CrewGetCommand(getApplicationContext());
+                        members = (List<CrewMember>) handleUserInput(command);
+                        String name;
+                        String surname;
+                        System.out.println("Enter first name");
+                        name = scanner.next();
+                        System.out.println("Enter second name");
+                        surname = scanner.next();
+                        for(int i=0;i<members.size();i++){
+                            if(members.get(i).getName().equals(name+" "+surname)){
+                                command = new CrewDeleteCommand(members.get(i),getApplicationContext());
+                                handleUserInput(command);
+                                break;
+                            }
+                        }
+
+                    }
+                    continue;
+                case 2:
+                    if(option==1){
 
                     }
 

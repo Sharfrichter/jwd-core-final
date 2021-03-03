@@ -1,11 +1,12 @@
-package com.epam.jwd.core_final.command;
+package com.epam.jwd.core_final.command.impl;
 
+import com.epam.jwd.core_final.command.Command;
 import com.epam.jwd.core_final.context.ApplicationContext;
 import com.epam.jwd.core_final.criteria.CrewMemberCriteria;
 import com.epam.jwd.core_final.service.CrewService;
 import com.epam.jwd.core_final.service.impl.CrewServiceImpl;
 
-public class CrewGetCommand implements Command{
+public class CrewGetCommand implements Command {
     CrewMemberCriteria criteria;
     CrewService service;
     ApplicationContext context;

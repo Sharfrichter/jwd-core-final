@@ -1,12 +1,13 @@
-package com.epam.jwd.core_final.command;
+package com.epam.jwd.core_final.command.impl;
 
+import com.epam.jwd.core_final.command.Command;
 import com.epam.jwd.core_final.context.ApplicationContext;
 import com.epam.jwd.core_final.domain.CrewMember;
 import com.epam.jwd.core_final.factory.impl.CrewMemberFactory;
 import com.epam.jwd.core_final.service.CrewService;
 import com.epam.jwd.core_final.service.impl.CrewServiceImpl;
 
-public class CrewCreateCommand implements Command{
+public class CrewCreateCommand implements Command {
     ApplicationContext context;
     CrewMember member;
     CrewService service;
