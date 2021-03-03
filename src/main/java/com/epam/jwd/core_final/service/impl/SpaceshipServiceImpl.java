@@ -11,10 +11,19 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class SpaceshipServiceImpl implements SpaceshipService {
-    ApplicationContext context;
-
-    public SpaceshipServiceImpl(ApplicationContext context) {
+    private ApplicationContext context;
+    private static SpaceshipServiceImpl instance;
+    private SpaceshipServiceImpl(ApplicationContext context) {
         this.context = context;
+    }
+
+    public static SpaceshipServiceImpl getInstance(ApplicationContext context) {
+        if(instance==null){
+            instance = new SpaceshipServiceImpl(context);
+        }else {
+            instance.context = context;
+        }
+        return instance;
     }
 
     @Override
