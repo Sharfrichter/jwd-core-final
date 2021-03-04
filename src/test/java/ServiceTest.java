@@ -18,4 +18,6 @@ public class ServiceTest {
         test.setX(10L);
         assertTrue(Math.abs(SpacemapServiceImpl.getInstance(null).getDistanceBetweenPlanets(earth,test)-10)<0.1);
     }
+
+
 }

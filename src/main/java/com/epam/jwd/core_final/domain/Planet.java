@@ -49,4 +49,9 @@ public class Planet extends AbstractBaseEntity{
     public int hashCode() {
         return Objects.hash(x, y);
     }
+
+    @Override
+    public String toString() {
+        return getName()+" "+x+" "+y;
+    }
 }

@@ -34,6 +34,7 @@ public class PlanetFileLoader implements LoadFromFileStrategy<Planet> {
                     char newLine=(char)reader.read();
                     if(newLine=='\n'){
                         y++;
+                        x=0;
                     }
                     /*if(!builder.toString().contains("null")&&!builder.toString().isEmpty()){
                         planetsNames.add(builder.toString());
