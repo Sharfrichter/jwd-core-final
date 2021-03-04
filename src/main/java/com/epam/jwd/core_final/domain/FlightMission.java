@@ -1,6 +1,7 @@
 package com.epam.jwd.core_final.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -17,8 +18,8 @@ import java.util.List;
  * to {@link Planet}
  */
 public class FlightMission extends AbstractBaseEntity {
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     Long distance;
     Spaceship assignedSpaceShip;
     List<CrewMember> assignedCrew;
@@ -28,21 +29,22 @@ public class FlightMission extends AbstractBaseEntity {
 
     public FlightMission() {
         super();
+        missionResult=MissionResult.PLANNED;
     }
 
-    public LocalDate getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
 

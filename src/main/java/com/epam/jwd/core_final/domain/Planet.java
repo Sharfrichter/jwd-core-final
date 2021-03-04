@@ -1,5 +1,7 @@
 package com.epam.jwd.core_final.domain;
 
+import java.util.Objects;
+
 /**
  * Expected fields:
  * <p>
@@ -32,5 +34,19 @@ public class Planet extends AbstractBaseEntity{
 
     public void setY(Long y) {
         this.y = y;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Planet planet = (Planet) o;
+        return Objects.equals(x, planet.x) &&
+                Objects.equals(y, planet.y);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }

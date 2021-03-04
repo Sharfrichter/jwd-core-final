@@ -12,8 +12,18 @@ import java.util.stream.Collectors;
 
 public class MissionServiceImpl implements MissionService {
     private ApplicationContext applicationContext;
+    private static MissionServiceImpl instance;
 
-    public MissionServiceImpl(ApplicationContext applicationContext) {
+    public static MissionServiceImpl getInstance(ApplicationContext context) {
+        if(instance==null){
+            instance = new MissionServiceImpl(context);
+        }else {
+            instance.applicationContext = context;
+        }
+        return instance;
+    }
+
+    private MissionServiceImpl(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
@@ -42,6 +52,7 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     public FlightMission createMission(FlightMission flightMission) {
+        applicationContext.retrieveBaseEntityList(FlightMission.class).add(flightMission);
         return flightMission;
     }
 }
