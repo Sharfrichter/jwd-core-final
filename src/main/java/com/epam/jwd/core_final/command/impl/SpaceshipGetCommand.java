@@ -10,6 +10,7 @@ public class SpaceshipGetCommand implements Command {
     SpaceshipCriteria criteria;
     SpaceshipService service;
     ApplicationContext context;
+
     public SpaceshipGetCommand(ApplicationContext context, SpaceshipCriteria criteria) {
         this(context);
         this.criteria = criteria;

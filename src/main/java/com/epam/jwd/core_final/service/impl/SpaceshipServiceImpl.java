@@ -2,10 +2,15 @@ package com.epam.jwd.core_final.service.impl;
 
 import com.epam.jwd.core_final.context.ApplicationContext;
 import com.epam.jwd.core_final.criteria.Criteria;
+import com.epam.jwd.core_final.domain.ApplicationProperties;
 import com.epam.jwd.core_final.domain.CrewMember;
 import com.epam.jwd.core_final.domain.Spaceship;
 import com.epam.jwd.core_final.service.SpaceshipService;
+import com.epam.jwd.core_final.strategy.load.SpaceshipFileLoader;
+import com.epam.jwd.core_final.strategy.save.SpaceshipFileSaver;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,7 +33,13 @@ public class SpaceshipServiceImpl implements SpaceshipService {
 
     @Override
     public List<Spaceship> findAllSpaceships() {
-        return (List<Spaceship>) context.retrieveBaseEntityList(Spaceship.class);
+        SpaceshipFileLoader loader = new SpaceshipFileLoader();
+        try {
+            return loader.load(Path.of("src/main/resources/" + ApplicationProperties.getInputRootDir() + "/" + ApplicationProperties.getSpaceshipsFileName()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -58,14 +69,33 @@ public class SpaceshipServiceImpl implements SpaceshipService {
     @Override
     public Spaceship createSpaceship(Spaceship spaceship) throws RuntimeException {
         List<Spaceship> spaceships = findAllSpaceships();
-        boolean exists=spaceships.stream().anyMatch(ship ->{
-            return ship.getName().equals(spaceship.getName());
-        });
+        boolean exists=spaceships.stream().anyMatch(ship -> ship.getName().equals(spaceship.getName()));
         if(exists){
             throw new RuntimeException("this ship is already exists");
         }else {
-            context.retrieveBaseEntityList(Spaceship.class).add(spaceship);
+            SpaceshipFileSaver saver = new SpaceshipFileSaver();
+            spaceships.add(spaceship);
+            try {
+                saver.save(Path.of("src/main/resources/"+ ApplicationProperties.getInputRootDir()+"/"+ApplicationProperties.getSpaceshipsFileName()),spaceships);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return spaceship;
         }
+
+    }
+
+    @Override
+    public void deleteSpaceship(Spaceship spaceship) {
+        spaceship.setValid(false);
+        List<Spaceship> spaceships = findAllSpaceships();
+        spaceships.removeIf(ship -> ship.getName().equals(spaceship.getName()));
+        SpaceshipFileSaver saver = new SpaceshipFileSaver();
+        try {
+            saver.save(Path.of("src/main/resources/"+ ApplicationProperties.getInputRootDir()+"/"+ApplicationProperties.getSpaceshipsFileName()),spaceships);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

@@ -20,11 +20,7 @@ public class CrewDeleteCommand implements Command {
 
     @Override
     public Object execute() {
-        try {
-            service.deleteCrewMember(member);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        service.deleteCrewMember(member);
         return true;
     }
 }

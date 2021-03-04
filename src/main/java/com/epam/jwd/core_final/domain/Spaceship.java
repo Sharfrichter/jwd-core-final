@@ -9,13 +9,15 @@ import java.util.Objects;
  * isReadyForNextMissions {@link Boolean} - true by default. Set to false, after first failed mission
  */
 public class Spaceship extends AbstractBaseEntity {
-    Map<Role,Short> crew;
-    Long flightDistance;
-    Boolean isReadyForNextMissions;
+    private boolean isValid;
+    private Map<Role,Short> crew;
+    private Long flightDistance;
+    private Boolean isReadyForNextMissions;
 
     public Spaceship() {
         super();
         isReadyForNextMissions = true;
+        isValid=true;
     }
 
     public Map<Role, Short> getCrew() {
@@ -55,5 +57,19 @@ public class Spaceship extends AbstractBaseEntity {
     @Override
     public int hashCode() {
         return Objects.hash(crew, flightDistance, isReadyForNextMissions);
+    }
+
+    @Override
+    public String toString() {
+        return getName()+" "+ crew + " "+flightDistance +
+                " isReadyForNextMissions=" + isReadyForNextMissions;
+    }
+
+    public boolean isValid() {
+        return isValid;
+    }
+
+    public void setValid(boolean valid) {
+        isValid = valid;
     }
 }

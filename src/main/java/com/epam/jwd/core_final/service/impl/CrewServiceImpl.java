@@ -9,13 +9,9 @@ import com.epam.jwd.core_final.strategy.load.CrewFileLoader;
 import com.epam.jwd.core_final.strategy.save.CrewFileSaver;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class CrewServiceImpl implements CrewService {
@@ -89,16 +85,28 @@ public class CrewServiceImpl implements CrewService {
         if(exists){
             throw new RuntimeException("this member is already exists");
         }else {
-            applicationContext.retrieveBaseEntityList(CrewMember.class).add(crewMember);
+            members.add(crewMember);
+            CrewFileSaver saver = new CrewFileSaver();
+            try {
+                saver.save(Path.of("src/main/resources/"+ ApplicationProperties.getInputRootDir()+"/"+ApplicationProperties.getCrewFileName()),members);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return crewMember;
         }
     }
 
-    public void deleteCrewMember(CrewMember crewMember) throws IOException {
+
+
+    public void deleteCrewMember(CrewMember crewMember) {
         crewMember.setValid(false);
         CrewFileSaver saver = new CrewFileSaver();
         List<CrewMember> members = findAllCrewMembers();
         members.removeIf(member -> member.getName().equals(crewMember.getName()));
-        saver.save(Path.of("src/main/resources/"+ ApplicationProperties.getInputRootDir()+"/"+ApplicationProperties.getCrewFileName()),members);
+        try {
+            saver.save(Path.of("src/main/resources/"+ ApplicationProperties.getInputRootDir()+"/"+ApplicationProperties.getCrewFileName()),members);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

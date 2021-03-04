@@ -12,7 +12,7 @@ public class CrewCreateCommand implements Command {
     CrewMember member;
     CrewService service;
 
-    public CrewCreateCommand(ApplicationContext context,Object...args) {
+    public CrewCreateCommand(ApplicationContext context, Object... args) {
         CrewMemberFactory factory = new CrewMemberFactory();
         this.member = factory.create(args);
         this.context = context;

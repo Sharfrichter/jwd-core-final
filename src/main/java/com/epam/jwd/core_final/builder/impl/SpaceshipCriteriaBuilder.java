@@ -14,4 +14,11 @@ public class SpaceshipCriteriaBuilder extends CriteriaBuilder<SpaceshipCriteria>
     public SpaceshipCriteria build() {
         return new SpaceshipCriteria(crew,flightDistance,isReadyForNextMissions);
     }
+
+    @Override
+    public SpaceshipCriteriaBuilder add(Object value) {
+        super.add(value);
+        return this;
+
+    }
 }
