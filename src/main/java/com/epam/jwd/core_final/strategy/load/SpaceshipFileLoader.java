@@ -4,6 +4,7 @@ import com.epam.jwd.core_final.domain.Role;
 import com.epam.jwd.core_final.domain.Spaceship;
 import com.epam.jwd.core_final.factory.impl.SpaceshipFactory;
 import com.epam.jwd.core_final.strategy.LoadFromFileStrategy;
+import com.epam.jwd.core_final.util.Logger;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -71,6 +72,7 @@ public class SpaceshipFileLoader implements LoadFromFileStrategy<Spaceship> {
             for(String[]s:values){
             ships.add(create(patterns.get(0), s));
         }
+        Logger.info("spaceships was loaded");
         return ships;
 
     }

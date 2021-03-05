@@ -4,8 +4,7 @@ import com.epam.jwd.core_final.builder.CriteriaBuilder;
 import com.epam.jwd.core_final.criteria.CrewMemberCriteria;
 import com.epam.jwd.core_final.domain.Rank;
 import com.epam.jwd.core_final.domain.Role;
-
-import java.lang.reflect.Field;
+import com.epam.jwd.core_final.util.Logger;
 
 public class CrewMemberCriteriaBuilder extends CriteriaBuilder<CrewMemberCriteria> {
     private Role role;
@@ -21,6 +20,7 @@ public class CrewMemberCriteriaBuilder extends CriteriaBuilder<CrewMemberCriteri
 
     @Override
     public CrewMemberCriteria build() {
-        return new CrewMemberCriteria(role,rank,isReadyForNextMissions);
+        Logger.info("was created criteria " + role + " " + rank + " " + isReadyForNextMissions);
+        return new CrewMemberCriteria(role, rank, isReadyForNextMissions);
     }
 }

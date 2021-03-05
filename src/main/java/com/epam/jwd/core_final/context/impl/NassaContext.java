@@ -7,6 +7,7 @@ import com.epam.jwd.core_final.strategy.LoadFromFileStrategy;
 import com.epam.jwd.core_final.strategy.load.CrewFileLoader;
 import com.epam.jwd.core_final.strategy.load.PlanetFileLoader;
 import com.epam.jwd.core_final.strategy.load.SpaceshipFileLoader;
+import com.epam.jwd.core_final.util.Logger;
 import com.epam.jwd.core_final.util.PropertyReaderUtil;
 
 import java.io.IOException;
@@ -26,14 +27,13 @@ public class NassaContext implements ApplicationContext {
 
     @Override
     public <T extends BaseEntity> Collection<T> retrieveBaseEntityList(Class<T> tClass) {
-        if(tClass.equals(CrewMember.class)){
+        if (tClass.equals(CrewMember.class)) {
             return (Collection<T>) crewMembers;
-        }
-        else if(tClass.equals(Spaceship.class)){
+        } else if (tClass.equals(Spaceship.class)) {
             return (Collection<T>) spaceships;
-        }else if(tClass.equals(Planet.class)){
+        } else if (tClass.equals(Planet.class)) {
             return (Collection<T>) planetMap;
-        }else if(tClass.equals(FlightMission.class)){
+        } else if (tClass.equals(FlightMission.class)) {
             return (Collection<T>) missions;
         }
         return null;
@@ -41,15 +41,17 @@ public class NassaContext implements ApplicationContext {
 
     /**
      * You have to read input files, populate collections
+     *
      * @throws InvalidStateException
      */
     @Override
     public void init() throws InvalidStateException {
+
         PropertyReaderUtil.loadProperties();
         strategy = new CrewFileLoader();
         try {
-            crewMembers=strategy.load(Path.of("src/main/resources/"+ ApplicationProperties.getInputRootDir()+"/"+ApplicationProperties.getCrewFileName()));
-        }catch (IOException e){
+            crewMembers = strategy.load(Path.of("src/main/resources/" + ApplicationProperties.getInputRootDir() + "/" + ApplicationProperties.getCrewFileName()));
+        } catch (IOException e) {
             throw new InvalidStateException("problem with crew file location property");
         }
 
@@ -65,5 +67,6 @@ public class NassaContext implements ApplicationContext {
         } catch (IOException e) {
             throw new InvalidStateException("Problem with spaceships file location property");
         }
+        Logger.info("cache was refreshed");
     }
 }

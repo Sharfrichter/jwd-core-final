@@ -14,6 +14,7 @@ import com.epam.jwd.core_final.service.impl.MissionServiceImpl;
 import com.epam.jwd.core_final.service.impl.NavigationServiceImpl;
 import com.epam.jwd.core_final.strategy.load.CrewFileLoader;
 import com.epam.jwd.core_final.strategy.load.SpaceshipFileLoader;
+import com.epam.jwd.core_final.util.Logger;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -45,6 +46,7 @@ public interface ApplicationMenu {
     }
 
     default void run() {
+        Logger.info("UI has been started");
         Scanner scanner = new Scanner(System.in);
         scanner.useDelimiter("\n");
         int value = 1000;
@@ -227,10 +229,7 @@ public interface ApplicationMenu {
                         System.out.println("Start planet name");
                         String startPlanetName = scanner.next();
                         Planet startPlanet = planets.stream().filter(planet -> {
-                            if (planet.getName().equals(startPlanetName)) {
-                                return true;
-                            }
-                            return false;
+                            return planet.getName().equals(startPlanetName);
                         }).findAny().get();
                         System.out.println("Destination planet name");
                         String destination = scanner.next();
@@ -261,7 +260,7 @@ public interface ApplicationMenu {
                         int id = scanner.nextInt();
                         FlightMission flightMission = missions.get(id);
                         command = new MissionStartCommand(flightMission, getApplicationContext());
-                        final FlightMission mission= (FlightMission) handleUserInput(command);
+                        final FlightMission mission = (FlightMission) handleUserInput(command);
                         Thread thread = new Thread(() -> {
                             try {
                                 NavigationServiceImpl.getInstance(getApplicationContext()).navigate(mission);

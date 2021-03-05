@@ -4,6 +4,7 @@ import com.epam.jwd.core_final.context.Application;
 import com.epam.jwd.core_final.context.ApplicationContext;
 import com.epam.jwd.core_final.domain.FlightMission;
 import com.epam.jwd.core_final.strategy.SaveInFileStrategy;
+import com.epam.jwd.core_final.util.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -25,5 +26,6 @@ public class MissionJSONSaver implements SaveInFileStrategy<FlightMission> {
             mapper.writeValue(path.toFile(),mission);
             mapper.writerWithDefaultPrettyPrinter().writeValueAsString(mission);
         }
+        Logger.info("Mission was saved");
     }
 }

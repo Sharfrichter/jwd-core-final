@@ -5,6 +5,7 @@ import com.epam.jwd.core_final.domain.Rank;
 import com.epam.jwd.core_final.domain.Role;
 import com.epam.jwd.core_final.factory.impl.CrewMemberFactory;
 import com.epam.jwd.core_final.strategy.LoadFromFileStrategy;
+import com.epam.jwd.core_final.util.Logger;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -69,7 +70,7 @@ public class CrewFileLoader implements LoadFromFileStrategy<CrewMember> {
                 crew.add(create(fieldsNames.get(i), crewValues.get(i)));
             }
         }
-
+        Logger.info("crew was loaded");
         return crew;
     }
 

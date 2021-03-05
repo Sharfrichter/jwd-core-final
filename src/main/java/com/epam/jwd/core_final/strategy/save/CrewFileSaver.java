@@ -2,6 +2,7 @@ package com.epam.jwd.core_final.strategy.save;
 
 import com.epam.jwd.core_final.domain.CrewMember;
 import com.epam.jwd.core_final.strategy.SaveInFileStrategy;
+import com.epam.jwd.core_final.util.Logger;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -34,6 +35,6 @@ public class CrewFileSaver implements SaveInFileStrategy<CrewMember> {
         writer.write("\n");
         writer.flush();
         writer.close();
-
+        Logger.info("Crew was saved");
     }
 }

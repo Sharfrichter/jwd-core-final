@@ -4,6 +4,7 @@ import com.epam.jwd.core_final.domain.CrewMember;
 import com.epam.jwd.core_final.domain.Role;
 import com.epam.jwd.core_final.domain.Spaceship;
 import com.epam.jwd.core_final.strategy.SaveInFileStrategy;
+import com.epam.jwd.core_final.util.Logger;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -36,5 +37,6 @@ public class SpaceshipFileSaver implements SaveInFileStrategy<Spaceship> {
 
         writer.flush();
         writer.close();
+        Logger.info("Spaseships was saved");
     }
 }

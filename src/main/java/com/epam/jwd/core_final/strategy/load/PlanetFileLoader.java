@@ -3,6 +3,7 @@ package com.epam.jwd.core_final.strategy.load;
 import com.epam.jwd.core_final.domain.Planet;
 import com.epam.jwd.core_final.factory.impl.PlanetFactory;
 import com.epam.jwd.core_final.strategy.LoadFromFileStrategy;
+import com.epam.jwd.core_final.util.Logger;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -55,6 +56,7 @@ public class PlanetFileLoader implements LoadFromFileStrategy<Planet> {
             Long y = Long.parseLong(planetsNames.get(i + 2));
             planetsList.add(factory.create(name, x, y));
         }
+        Logger.info("planets was loaded");
         return planetsList;
     }
 }

@@ -2,7 +2,10 @@ package com.epam.jwd.core_final.builder.impl;
 
 import com.epam.jwd.core_final.builder.CriteriaBuilder;
 import com.epam.jwd.core_final.criteria.FlightMissionCriteria;
-import com.epam.jwd.core_final.domain.*;
+import com.epam.jwd.core_final.domain.CrewMember;
+import com.epam.jwd.core_final.domain.MissionResult;
+import com.epam.jwd.core_final.domain.Planet;
+import com.epam.jwd.core_final.domain.Spaceship;
 
 import java.time.LocalDate;
 import java.util.List;
