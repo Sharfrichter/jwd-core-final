@@ -11,21 +11,20 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
-public class MissionJSONSaver implements SaveInFileStrategy<FlightMission> {
+public class MissionJSONSaver {
     private ApplicationContext applicationContext;
 
     public MissionJSONSaver(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
-    @Override
-    public void save(Path path, List<FlightMission> list) throws IOException {
+
+    public void save(Path path, FlightMission mission) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         List<FlightMission> missions = (List<FlightMission>) applicationContext.retrieveBaseEntityList(FlightMission.class);
-        for(FlightMission mission:missions){
-            mapper.writeValue(path.toFile(),mission);
-            mapper.writerWithDefaultPrettyPrinter().writeValueAsString(mission);
-        }
+        mapper.writeValue(path.toFile(),mission);
+        mapper.writerWithDefaultPrettyPrinter().writeValueAsString(mission);
+
         Logger.info("Mission was saved");
     }
 }

@@ -274,7 +274,13 @@ public interface ApplicationMenu {
                         Command command = new MissionGetCommand(getApplicationContext());
                         ((List<FlightMission>) handleUserInput(command)).forEach(System.out::println);
                     } else if (option == 4) {
-                        Command command = new MissionSaveCommand(getApplicationContext());
+                        List<FlightMission> missions = (List<FlightMission>) getApplicationContext().retrieveBaseEntityList(FlightMission.class);
+                        for(int i=0;i<missions.size();i++){
+                            System.out.println(i + " " + missions.get(i));
+                        }
+                        System.out.println("Choose number");
+                        int num = scanner.nextInt();
+                        Command command = new MissionSaveCommand(getApplicationContext(),missions.get(num));
                         handleUserInput(command);
                     }
 
