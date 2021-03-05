@@ -8,5 +8,5 @@ import java.io.IOException;
 import java.util.List;
 
 public interface NavigationService {
-    int navigate(Planet begin, Planet destination) throws IOException;
+    Long navigate(FlightMission mission) throws IOException;
 }

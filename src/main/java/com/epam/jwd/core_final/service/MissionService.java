@@ -17,4 +17,9 @@ public interface MissionService {
     FlightMission updateMissionDetails(FlightMission flightMission);
 
     FlightMission createMission(FlightMission flightMission);
+
+    void assignCrewMemberOnMission(FlightMission mission);
+
+    void assignSpaceshipOnMission(FlightMission mission) throws RuntimeException;
+
 }

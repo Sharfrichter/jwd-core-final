@@ -62,16 +62,6 @@ public class CrewServiceImpl implements CrewService {
     }
 
 
-    //todo
-    @Override
-    public void assignCrewMemberOnMission(CrewMember crewMember) throws RuntimeException {
-        if(!crewMember.getReadyForNextMissions()){
-            throw new RuntimeException("This crew member is not available");
-        }else {
-            crewMember.setReadyForNextMissions(false);
-        }
-
-    }
 
     @Override
     public CrewMember createCrewMember(CrewMember crewMember) throws RuntimeException {

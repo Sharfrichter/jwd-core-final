@@ -60,11 +60,7 @@ public class SpaceshipServiceImpl implements SpaceshipService {
         return spaceship;
     }
 
-    //todo
-    @Override
-    public void assignSpaceshipOnMission(Spaceship spaceship) throws RuntimeException {
 
-    }
 
     @Override
     public Spaceship createSpaceship(Spaceship spaceship) throws RuntimeException {

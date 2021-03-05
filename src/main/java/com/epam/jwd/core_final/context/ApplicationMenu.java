@@ -10,15 +10,16 @@ import com.epam.jwd.core_final.criteria.CrewMemberCriteria;
 import com.epam.jwd.core_final.criteria.SpaceshipCriteria;
 import com.epam.jwd.core_final.domain.*;
 import com.epam.jwd.core_final.factory.impl.FlightMissionFactory;
-import com.epam.jwd.core_final.service.MissionService;
 import com.epam.jwd.core_final.service.impl.MissionServiceImpl;
+import com.epam.jwd.core_final.service.impl.NavigationServiceImpl;
 import com.epam.jwd.core_final.strategy.load.CrewFileLoader;
 import com.epam.jwd.core_final.strategy.load.SpaceshipFileLoader;
 
-import java.time.LocalDate;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @FunctionalInterface
 public interface ApplicationMenu {
@@ -32,6 +33,9 @@ public interface ApplicationMenu {
         }
         if (depth == 1) {
             return "1-Create\n2-Get\n3-Get with criteria\n4-Delete";
+        }
+        if (depth == 2) {
+            return "1-Create\n2-Start Mission\n3-Console info\n4-File info";
         }
         return null;
     }
@@ -51,10 +55,10 @@ public interface ApplicationMenu {
             if (value == 0) {
                 return;
             }
-            System.out.println(printAvailableOptions(1));
-            option = scanner.nextInt();
             switch (value) {
                 case 1:
+                    System.out.println(printAvailableOptions(1));
+                    option = scanner.nextInt();
                     if (option == 1) {
                         List<Object> values = new ArrayList<>();
                         System.out.println("First name");
@@ -125,6 +129,8 @@ public interface ApplicationMenu {
                     }
                     continue;
                 case 2:
+                    System.out.println(printAvailableOptions(1));
+                    option = scanner.nextInt();
                     if (option == 1) {
                         List<Object> values = new ArrayList<>();
                         Map<Role, Short> map = new HashMap<>();
@@ -155,6 +161,7 @@ public interface ApplicationMenu {
                         spaceships.forEach(System.out::println);
 
                     } else if (option == 3) {
+
                         SpaceshipCriteriaBuilder builder = new SpaceshipCriteriaBuilder();
                         Map<Role, Short> map = null;
                         long val = 0;
@@ -209,7 +216,9 @@ public interface ApplicationMenu {
                     }
                     continue;
                 case 3:
-                    if(option==1){
+                    System.out.println(printAvailableOptions(2));
+                    option = scanner.nextInt();
+                    if (option == 1) {
                         Command command = new PlanetGetCommand(getApplicationContext());
                         FlightMissionFactory flightMissionFactory = new FlightMissionFactory();
                         List<Planet> planets = (List<Planet>) handleUserInput(command);
@@ -217,38 +226,57 @@ public interface ApplicationMenu {
                         List<Spaceship> spaceships = (List<Spaceship>) handleUserInput(command);
                         System.out.println("Start planet name");
                         String startPlanetName = scanner.next();
-                        Planet startPlanet=planets.stream().filter(planet -> {
-                            if(planet.getName().equals(startPlanetName)){
+                        Planet startPlanet = planets.stream().filter(planet -> {
+                            if (planet.getName().equals(startPlanetName)) {
                                 return true;
                             }
                             return false;
                         }).findAny().get();
                         System.out.println("Destination planet name");
                         String destination = scanner.next();
-                        Planet endPlanet=planets.stream()
+                        Planet endPlanet = planets.stream()
                                 .filter(planet -> planet.getName().equals(destination))
-                                .findAny()
-                                .get();
-                        System.out.println("Ship name");
-                        String shipName = scanner.next();
-                        Spaceship ship=spaceships.stream()
-                                .filter(spaceship -> spaceship.getName().equals(shipName))
                                 .findAny()
                                 .get();
                         System.out.println("Start date");
                         String startDateLine = scanner.next();
-                        LocalDateTime startDate = LocalDateTime.now();
-                        startDate.format(DateTimeFormatter.ofPattern(ApplicationProperties.getDateTimeFormat()));
-                        FlightMission mission=flightMissionFactory.create(ship);
+
+                        LocalDateTime startDate = LocalDateTime.parse(startDateLine, DateTimeFormatter.ofPattern(ApplicationProperties.getDateTimeFormat()));
+
+                        FlightMission mission = flightMissionFactory.create();
                         mission.setStartPlanet(startPlanet);
                         mission.setEndPlanet(endPlanet);
                         mission.setStartDate(startDate);
                         MissionServiceImpl.getInstance(getApplicationContext()).createMission(mission);
-                        MissionServiceImpl.getInstance(getApplicationContext()).findAllMissions().forEach(System.out::println);
 
 
+                    } else if (option == 2) {
+                        Command command = new MissionGetCommand(getApplicationContext());
+                        List<FlightMission> missions = (List<FlightMission>) handleUserInput(command);
+                        missions = missions.stream().filter(mission -> mission.getMissionResult().equals(MissionResult.PLANNED)).collect(Collectors.toList());
+                        for (int i = 0; i < missions.size(); i++) {
+                            System.out.println(i + " " + missions.get(i));
+                        }
+                        System.out.println("choose number");
+                        int id = scanner.nextInt();
+                        FlightMission flightMission = missions.get(id);
+                        command = new MissionStartCommand(flightMission, getApplicationContext());
+                        final FlightMission mission= (FlightMission) handleUserInput(command);
+                        Thread thread = new Thread(() -> {
+                            try {
+                                NavigationServiceImpl.getInstance(getApplicationContext()).navigate(mission);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        });
+                        thread.start();
 
-
+                    } else if (option == 3) {
+                        Command command = new MissionGetCommand(getApplicationContext());
+                        ((List<FlightMission>) handleUserInput(command)).forEach(System.out::println);
+                    } else if (option == 4) {
+                        Command command = new MissionSaveCommand(getApplicationContext());
+                        handleUserInput(command);
                     }
 
                     continue;

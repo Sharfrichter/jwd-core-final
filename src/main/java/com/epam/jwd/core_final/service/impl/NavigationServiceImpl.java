@@ -1,8 +1,7 @@
 package com.epam.jwd.core_final.service.impl;
 
 import com.epam.jwd.core_final.context.ApplicationContext;
-import com.epam.jwd.core_final.domain.ApplicationProperties;
-import com.epam.jwd.core_final.domain.Planet;
+import com.epam.jwd.core_final.domain.*;
 import com.epam.jwd.core_final.service.NavigationService;
 import com.epam.jwd.core_final.strategy.load.PlanetFileLoader;
 
@@ -10,7 +9,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class NavigationServiceImpl implements NavigationService {
     private static NavigationServiceImpl instance;
@@ -39,41 +40,58 @@ public class NavigationServiceImpl implements NavigationService {
 
 
     @Override
-    public int navigate(Planet begin, Planet destination) throws IOException {
-        Node beg=null;
-        Node dest=null;
+    public Long navigate(FlightMission mission) throws IOException {
+        Long optimalDistance = 0L;
+        initGraph(mission.getAssignedSpaceShip().getFlightDistance());
+        Planet begin = mission.getStartPlanet();
+        Planet destination = mission.getEndPlanet();
+        Node beg = null;
+        Node dest = null;
         for (Node node : graph.nodes) {
             if (node.planet.equals(begin)) {
                 beg = node;
-            }else if(node.planet.equals(destination)){
+            } else if (node.planet.equals(destination)) {
                 dest = node;
             }
         }
         Stack<Node> queue = new Stack<>();
         queue.add(beg);
         beg.visited = true;
+        int counter = 1000000;
         while (!queue.isEmpty()) {
             Node next = queue.pop();
             for (Node neighbor : next.next) {
                 if (!neighbor.visited) {
+                    counter = Math.min(counter, SpacemapServiceImpl.getInstance(context).getDistanceBetweenPlanets(neighbor.planet, next.planet));
                     queue.add(neighbor);
                     neighbor.visited = true;
                     if (neighbor.planet.equals(destination)) {
-                        int distance = SpacemapServiceImpl.getInstance(context).getDistanceBetweenPlanets(begin, queue.get(0).planet);
-                        if(queue.size()>1){
-                            for(int i=0;i<queue.size()-1;i++){
-                                distance+=SpacemapServiceImpl.getInstance(context).getDistanceBetweenPlanets(queue.get(i).planet,queue.get(i+1).planet);
-                            }
+                        optimalDistance += SpacemapServiceImpl.getInstance(context).getDistanceBetweenPlanets(next.planet, neighbor.planet);
+                        try {
+                            Thread.sleep(optimalDistance*1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
-                        return distance;
+                        mission.setMissionResult(MissionResult.COMPLETED);
+                        mission.getAssignedSpaceShip().setReadyForNextMissions(true);
+                        mission.setEndDate(mission.getStartDate().plusSeconds(optimalDistance));
+                        for(CrewMember member:mission.getAssignedCrew()){
+                            member.setReadyForNextMissions(true);
+                        }
+                        mission.setDistance(optimalDistance);
+                        return optimalDistance;
                     }
+
                 }
             }
+            optimalDistance+=counter;
         }
-
-
-        return 0;
+        mission.setMissionResult(MissionResult.FAILED);
+        return 0L;
     }
+
+
+
 
     public void initGraph(Long maxDistance) throws IOException {
         graph = new Graph();
